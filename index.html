@@ -7,25 +7,47 @@
   <link id="-gd-engine-icon" rel="icon" type="image/png" href="index.icon.png" />
   <link rel="apple-touch-icon" href="index.apple-touch-icon.png" />
   <style>
+    /* Reset + Base */
     body {
       margin: 0;
-      font-family: sans-serif;
+      font-family: system-ui, sans-serif;
       background-color: #111;
-      color: #fff;
+      color: #eee;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
 
     header, footer {
       text-align: center;
       padding: 1rem;
       background-color: #222;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 2rem;
+    }
+
+    header p {
+      margin: 0.5rem 0 0;
+      font-size: 1rem;
+      color: #aaa;
+    }
+
+    footer {
+      font-size: 0.875rem;
+      color: #888;
+      margin-top: auto;
     }
 
     main {
       display: flex;
       justify-content: center;
       align-items: center;
+      flex-grow: 1;
       padding: 2rem;
-      flex-direction: column;
     }
 
     #game-container {
@@ -33,19 +55,29 @@
       width: 100%;
       aspect-ratio: 16 / 9;
       position: relative;
-      background: black;
+      background: #000;
       border: 2px solid #444;
-      border-radius: 8px;
+      border-radius: 12px;
       overflow: hidden;
+
+      /* Center canvas inside */
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     #canvas {
-      width: 100%;
-      height: 100%;
+      /* Force native resolution + smooth scaling */
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 100%;
       display: block;
+      image-rendering: pixelated;
       outline: none;
     }
 
+    /* Status overlay */
     #status, #status-splash, #status-progress {
       position: absolute;
       left: 0;
@@ -105,12 +137,27 @@
       text-align: center;
       z-index: 1;
     }
+
+    /* Responsive tweaks */
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 1.5rem;
+      }
+
+      header p {
+        font-size: 0.875rem;
+      }
+
+      #game-container {
+        border-radius: 8px;
+      }
+    }
   </style>
 </head>
 <body>
   <header>
     <h1>Squash the Creeps (3D)</h1>
-    <p>A WebGL game made with Godot Engine</p>
+    <p>Play the game right here in your browser!</p>
   </header>
 
   <main>
@@ -136,7 +183,17 @@
 
   <script src="index.js"></script>
   <script>
-    const GODOT_CONFIG = {"args":[],"canvasResizePolicy":2,"ensureCrossOriginIsolationHeaders":true,"executable":"index","experimentalVK":false,"fileSizes":{"index.pck":1785952,"index.wasm":52126319},"focusCanvas":true,"gdextensionLibs":[]};
+    const GODOT_CONFIG = {
+      "args": [],
+      "canvasResizePolicy": 2, // keep as-is for now
+      "ensureCrossOriginIsolationHeaders": true,
+      "executable": "index",
+      "experimentalVK": false,
+      "fileSizes": { "index.pck": 1785952, "index.wasm": 52126319 },
+      "focusCanvas": true,
+      "gdextensionLibs": []
+    };
+
     const GODOT_THREADS_ENABLED = false;
     const engine = new Engine(GODOT_CONFIG);
 
